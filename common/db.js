@@ -1,8 +1,7 @@
-const mongoose = require('mongoose');
+const mongoose = require ('mongoose');
+const config   = require ('../config');
 
-const db_url = 'mongodb+srv://nearestCars:nearestCars@cluster0-edzww.mongodb.net/nearestCars?retryWrites=true&w=majority';
-
-let connection = mongoose.createConnection(db_url, {
+let connection = mongoose.createConnection(config.DB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });

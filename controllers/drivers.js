@@ -14,7 +14,7 @@ driversController.getCurrentLocation = async function (req, res) {
         return res.status (500).send ({err : err, message : err.message});
     }
 
-    return res.send ({data: driver});
+    return res.send ({data: driver.location.coordinates});
 };
 
 driversController.getNearestDrivers = async function (req, res) {

@@ -1,5 +1,6 @@
 const Schema = require ('../schemas/drivers');
 const db     = require ('../common/db');
+const config = require ('../config');
 
 const connection = db.db ();
 const Model      = connection.model ('drivers', Schema);
@@ -12,7 +13,7 @@ model.getCurrentLocation = async function (driverId) {
     }
 
     try {
-        const driver = await Model.findOne ({ _id: driverId });
+        const driver = await Model.findOne ({ _id: driverId }).exec ();
         return driver;
     } catch (err) {
         console.error ({err : err, message : err.message, stack : err.stack});
@@ -30,7 +31,7 @@ model.getNearestDrivers = async function (longitude, latitude) {
             location: {
                 $near: {
                     $geometry: { type: "Point", coordinates: [longitude, latitude] },
-                    $maxDistance: 500
+                    $maxDistance: config.MAX_DISTANCE,
                 }
             }
         }).exec ();

@@ -1,21 +1,43 @@
-const db = require ('../common/db').get ();
+const Schema = require ('../schemas/drivers');
+const db     = require ('../common/db');
+
+const connection = db.db ();
+const Model      = connection.model ('drivers', Schema);
 
 const model = {};
 
-model.addDriver = async function (doc) {
-    if (!doc) {
-        return console.error ('no driver provided to insert');
-    }
-
-    if (!doc.location) {
-        return console.error ('mandatory driver location was not provided');
+model.getCurrentLocation = async function (driverId) {
+    if (!driverId) {
+        throw new Error ('driver id is required to fetch driver location');
     }
 
     try {
-        const driver = await db.insertOne (doc);
+        const driver = await Model.findOne ({ _id: driverId });
         return driver;
     } catch (err) {
         console.error ({err : err, message : err.message, stack : err.stack});
+        throw err;
+    }
+}
+
+model.getNearestDrivers = async function (longitude, latitude) {
+    if (!longitude || !latitude) {
+        throw new Error ('both latitude and longitude are required to fetch nearest drivers');
+    }
+
+    try {
+        const drivers = await Model.find ({
+            location: {
+                $near: {
+                    $geometry: { type: "Point", coordinates: [longitude, latitude] },
+                    $maxDistance: 500
+                }
+            }
+        }).exec ();
+        return drivers;
+    } catch (err) {
+        console.error ({err : err, message : err.message, stack : err.stack});
+        throw err;
     }
 }
 

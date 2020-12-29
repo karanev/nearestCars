@@ -1,30 +1,14 @@
-const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://nearestCars:nearestCars@cluster0.edzww.mongodb.net/nearestCars?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true });
-let mongodb;
+const mongoose = require('mongoose');
 
-function connect (callback) {
-  client.connect ((err, db) => {
-    if (err) {
-      return console.error ("couldn't connect to db");
-    }
+const db_url = 'mongodb+srv://nearestCars:nearestCars@cluster0-edzww.mongodb.net/nearestCars?retryWrites=true&w=majority';
 
-    console.log ('db connected');
-    mongodb = db;
-    callback ();
-  });
+let connection = mongoose.createConnection(db_url, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+
+function db() {
+  return connection;
 }
 
-function get () {
-  return mongodb;
-}
-
-function close () {
-  mongodb.close ();
-}
-
-module.exports = {
-  connect,
-  get,
-  close
-};
+module.exports.db = db;

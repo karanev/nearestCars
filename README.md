@@ -43,12 +43,13 @@ Sample Response:
 }
 ```
 
-Approach:
+## Approach:
 Using GeoJSON points in MongoDB to store coordinates of drivers. And using '2dsphere' index to optimally query closest drivers.
 
 I have hosted the DB on Mongo Cloud. So, don't need to setup it.
 This is just a kind of POC. Otherwise, we should have used websockets for realtime updation of drivers location and tracking a driver,
-events for reconnecting websockets, db upon disconnection and many more things like this.
+events for reconnecting websockets, db upon disconnection and many more things like choosing the best algo for querying the closest cars by
+doing a POC to compare them.
 
 Platform: Node.js, MongoDB
 

@@ -1,5 +1,7 @@
 # nearestCars
 
+POSTMAN Link: ```https://www.getpostman.com/collections/ac7bab5d2ee1e9f753e8```
+
 API endpoints:
 
 1. getCurrentDriverLocation - /drivers/location
